@@ -22,6 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('products', 'App\Http\Controllers\ProductController');
+Route::resource('categories', 'App\Http\Controllers\CategoryController');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -33,8 +34,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
  //Admin and Client routes
 Route::get('/admin', [AdminController::class, 'dashboard']);
 Route::get('/client', [ClientController::class, 'dashboard']);
-
-Route::get('/admin/category', [CategoryController::class, 'cat_view']);
+ //Category route
+Route::get('/admin/category', [CategoryController::class, 'index']);
+ //products route
 Route::get('/test', function () {
     return view('admin.products.index');
 });
