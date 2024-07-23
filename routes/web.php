@@ -21,7 +21,7 @@ use App\Http\Controllers\CategoryController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('products',ProductController::class);
+Route::resource('products', 'App\Http\Controllers\ProductController');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -35,3 +35,6 @@ Route::get('/admin', [AdminController::class, 'dashboard']);
 Route::get('/client', [ClientController::class, 'dashboard']);
 
 Route::get('/admin/category', [CategoryController::class, 'cat_view']);
+Route::get('/test', function () {
+    return view('admin.products.index');
+});
