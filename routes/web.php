@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use app\Http\Controllers\ProductController; 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CategoryController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +29,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+ //Admin and Client routes
+Route::get('/admin', [AdminController::class, 'dashboard']);
+Route::get('/client', [ClientController::class, 'dashboard']);
+
+Route::get('/admin/category', [CategoryController::class, 'cat_view']);
