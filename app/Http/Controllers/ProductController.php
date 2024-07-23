@@ -15,8 +15,8 @@ class ProductController extends Controller
     public function index()
     {
         //
-        $products = Product::latest();
-        return view ('products.index',compact('products'));
+        $products = Product::All();
+        return view ('admin.products.index',compact('products'));
     }
 
     /**
@@ -27,7 +27,7 @@ class ProductController extends Controller
     public function create()
     {
         //
-        return view('products.create');
+        return view('admin.products.create');
     }
 
     /**
@@ -37,24 +37,25 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-        $request->validate([
-            'name'=>'required',
-            'details'=>'required',
-            'image'=>'required|image|nimes:jpeg,png,jpg,gif,svg',
+{
+    $request->validate([
+        'name' => 'required|string|max:255', 
+        'details' => 'required|string', 
+        'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', 
         ]);
-        $input=$request->all();
-        if($image=$request->file('image')){
-            $dest='/images/';
-            $prodimg = date("YmdHis").".".$image->getClientOriginalExtension();
-            $image->move($dest,$prodimg);
-            $input['image']="$prodimg";
 
-        }
-        Product::create($input);
-        return redirect()->route('products.index');
+    $input = $request->all();
+    if ($image = $request->file('image')) {
+        $dest = 'images/';
+        $prodimg = date("YmdHis") . "." . $image->getClientOriginalExtension();
+        $image->move($dest, $prodimg);
+        $input['image'] = $prodimg;
     }
+
+    Product::create($input);
+    return redirect()->route('products.index');
+}
+
 
     /**
      * Display the specified resource.
