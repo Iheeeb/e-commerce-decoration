@@ -6,6 +6,13 @@ use app\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\OrderController;
+// Route pour confirmer une commande
+Route::put('orders/{id}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
+
+// Route pour supprimer une commande
+Route::delete('orders/{id}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
 
 
 /*
@@ -44,3 +51,6 @@ Route::get('/admin/category', [CategoryController::class, 'index']);
 Route::get('/test', function () {
     return view('admin.products.index');
 });
+
+Route::get('/admin/orders', [OrderController::class, 'index']);
+
