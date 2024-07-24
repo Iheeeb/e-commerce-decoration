@@ -42,6 +42,16 @@
                     </div>
                   </a>
                   <ul class="nav collapse parent" id="e-commerce">
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('clients.index') }}" data-bs-toggle="" aria-expanded="false">
+                          <div class="d-flex align-items-center">
+                              <span class="nav-link-text">Clients</span>
+                          </div>
+                      </a>
+                  </li>
+                  
+
                     <li class="nav-item"><a class="nav-link" href="admin/category" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text">Categories</span></div>
                       </a></li>

@@ -2,10 +2,12 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 24, 2024 at 02:58 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+
+-- Hôte : 127.0.0.1:3306
+-- Généré le : mer. 24 juil. 2024 à 12:55
+-- Version du serveur : 8.2.0
+-- Version de PHP : 8.2.13
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
