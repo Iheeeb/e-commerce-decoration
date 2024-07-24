@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use app\Http\Controllers\Controller; 
 use app\Http\Controllers\ProductController; 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
@@ -17,6 +18,9 @@ use App\Http\Controllers\CategoryController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/admin/clients', [Controller::class, 'index'])->name('clients.index');
+
 
 Route::get('/', function () {
     return view('welcome');
