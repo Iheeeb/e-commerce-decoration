@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -25,10 +25,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
-        return view('admin.products.create');
-    }
+{
+    $categories = Category::all(); // Assurez-vous d'avoir importé votre modèle Category
+    return view('admin.products.create', compact('categories'));
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -76,11 +77,11 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Product $product)
-    {
-        //
-        return view ('products.edit',compact('product'));
+{
+    $categories = Category::all(); // Récupère toutes les catégories
+    return view('admin.products.edit', compact('product', 'categories'));
+}
 
-    }
 
     /**
      * Update the specified resource in storage.
