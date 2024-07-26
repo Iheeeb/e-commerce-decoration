@@ -59,7 +59,7 @@
                       <div class="d-flex align-items-center"><span class="nav-link-text">Products</span></div>
                   </a>
                   </li>
-                      <li class="nav-item"><a class="nav-link" href="apps/e-commerce/orders.html" data-bs-toggle="" aria-expanded="false">
+                      <li class="nav-item"><a class="nav-link" href="admin/orders" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text">Orders</span></div>
                       </a></li>
                   </ul>
