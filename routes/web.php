@@ -7,6 +7,8 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Models\Category;
+
 // Route pour confirmer une commande
 Route::put('orders/{id}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
 
@@ -27,10 +29,12 @@ Route::delete('orders/{id}', [OrderController::class, 'destroy'])->name('orders.
 */
 
 Route::get('/admin/clients', [Controller::class, 'index'])->name('clients.index');
-
-
+Route::get('/category/{id}', [Controller::class, 'showCategorie'])->name('category.show');
 Route::get('/', function () {
-    return view('welcome');
+    $categories = Category::select('categories.*', DB::raw('(SELECT COUNT(*) FROM products WHERE products.category = categories.name) as products_count'))
+        ->get();
+
+    return view('guest.home', compact('categories'));
 });
 Route::resource('products', 'App\Http\Controllers\ProductController');
 Route::resource('categories', 'App\Http\Controllers\CategoryController');

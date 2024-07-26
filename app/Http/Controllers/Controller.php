@@ -16,7 +16,7 @@ class Controller extends BaseController
     public function index()
 {
     // Filtrer les utilisateurs avec le rôle 'client'
-    $clients = User::where('role', 'client')->get();
+    $clients = User::where('role', 'user')->get();
     return view('admin.clients.index', compact('clients'));
 }
 

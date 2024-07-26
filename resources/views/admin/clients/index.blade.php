@@ -7,6 +7,8 @@
         <th>No</th>
         <th>Name</th>
         <th>Email</th>
+        <th>Phone</th>
+        <th>Adress</th>
         
       </tr>
     </thead>
@@ -16,6 +18,8 @@
             <td>{{ $client->id }}</td>
             <td>{{ $client->name }}</td>
             <td>{{ $client->email }}</td>
+            <td>{{ $client->phone }}</td>
+            <td>{{ $client->address }}</td>
             
             
           </tr>
