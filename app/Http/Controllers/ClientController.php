@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Category;
+use App\Models\Product;
 
 class ClientController extends Controller
 {
@@ -19,7 +21,10 @@ class ClientController extends Controller
 
      //fct permet d'afficher dashboard admin
      public function dashboard(){
-        return view('client.dash');
+        $categories = Category::All();
+        $products = Product::All();
+
+        return view('client.dash',compact('categories','products'));
     }
 
 

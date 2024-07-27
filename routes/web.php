@@ -33,6 +33,8 @@ Route::delete('orders/{id}', [OrderController::class, 'destroy'])->name('orders.
 
 Route::get('/admin/clients', [Controller::class, 'index'])->name('clients.index');
 Route::get('/category/{id}', [Controller::class, 'showCategorie'])->name('category.show');
+Route::get('product/detail/{id}', [ProductController::class, 'product_details'])->name('product.detail');
+
 Route::get('/', function () {
     $categories = Category::select('categories.*', DB::raw('(SELECT COUNT(*) FROM products WHERE products.category = categories.name) as products_count'))
         ->get();
@@ -48,13 +50,13 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Auth::routes();
-
-
+Route::get('cart/add/{product}', [ProductController::class, 'addToCart'])->name('products.addToCart');
  //Admin and Client routes
 Route::get('/admin', [AdminController::class, 'index']);
 Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
 Route::post('/edit/profile', [AdminController::class, 'editprofile'])->name('admin.editprofile');
 Route::get('/client', [ClientController::class, 'dashboard']);
+
  //Category route
 Route::get('admin/category', [CategoryController::class, 'index']);
  //products route
