@@ -4,6 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+
+
 class AdminController extends Controller
 {
     /**
@@ -13,19 +19,25 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
-    }
+    
+            return view('admin.dash');
+        }
+    
+     public function profile()
+        {
+        
+                return view('admin.profile');
+            }
 
 
-     //fct permet d'afficher dashboard admin
-     public function dashboard(){
-        return view('admin.dash');
-    }
-
-
-
-
-
+     public function editprofile(Request $request)
+            {   auth::user()->name = $request->name;
+                auth::user()->email = $request->email;
+                auth::user()->password = hash::make($request->password);
+                auth::user()->update();
+            
+                    return redirect('/profile')->with('success', 'Profile updated successfully.');
+                }
     /**
      * Show the form for creating a new resource.
      *

@@ -52,14 +52,14 @@
                   </li>
                   
 
-                    <li class="nav-item"><a class="nav-link" href="admin/category" data-bs-toggle="" aria-expanded="false">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('categories.index') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text">Categories</span></div>
                       </a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('products.index') }}" data-bs-toggle="" aria-expanded="false">
                       <div class="d-flex align-items-center"><span class="nav-link-text">Products</span></div>
                   </a>
                   </li>
-                      <li class="nav-item"><a class="nav-link" href="admin/orders" data-bs-toggle="" aria-expanded="false">
+                      <li class="nav-item"><a class="nav-link" href="{{ route('orders.index') }}" data-bs-toggle="" aria-expanded="false">
                         <div class="d-flex align-items-center"><span class="nav-link-text">Orders</span></div>
                       </a></li>
                   </ul>
@@ -158,16 +158,13 @@
                   <div class="card bg-white position-relative border-0">
                     <div class="card-body p-0 overflow-auto scrollbar" style="height: 18rem;">
                       <div class="text-center pt-4 pb-3">
-                        <div class="avatar avatar-xl"><img class="rounded-circle" src="assets/img/team/57.png" alt=""></div>
-                        <h6 class="mt-2">Jerry Seinfield</h6>
+                      <div class="avatar avatar-xl"><img class="rounded-circle" src="assets/img/team/57.png" alt=""></div>
+                       <h6 class="mt-2">{{auth()->user()->name}} </h6>
                       </div>
-                      <div class="mb-3 mx-3"><input class="form-control form-control-sm" id="statusUpdateInput" placeholder="Update your status"></div>
+                    
                       <ul class="nav d-flex flex-column mb-2 pb-1">
-                        <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="user"></span>Profile</a></li>
+                        <li class="nav-item"><a class="nav-link px-3" href="{{ route('admin.profile') }}"><span class="me-2 text-900" data-feather="user"></span>Profile</a></li>
                         <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="pie-chart"></span>Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="lock"></span>Posts &amp; Activity</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="settings"></span>Settings &amp; Privacy</a></li>
-                        <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="help-circle"></span>Help Center</a></li>
                         <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="globe"></span>Language</a></li>
                       </ul>
                     </div>
@@ -176,7 +173,16 @@
                         <li class="nav-item"><a class="nav-link px-3" href="#!"><span class="me-2 text-900" data-feather="user-plus"></span>Add another account</a></li>
                       </ul>
                       <hr>
-                      <div class="px-3"><a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="#!"><span class="me-2" data-feather="log-out"></span>Sign out</a></div>
+                      <div class="px-3">
+    <!-- Logout Form -->
+    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
+        @csrf
+        <button type="submit" class="btn btn-phoenix-secondary d-flex flex-center w-100">
+            <span class="me-2" data-feather="log-out"></span>Sign out
+        </button>
+    </form>
+</div>
+
                       <div class="my-2 text-center fw-bold fs--2 text-600"><a class="text-600 me-1" href="#!">Privacy policy</a>&bull;<a class="text-600 mx-1" href="#!">Terms</a>&bull;<a class="text-600 ms-1" href="#!">Cookies</a></div>
                     </div>
                   </div>
