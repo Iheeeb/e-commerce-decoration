@@ -12,6 +12,49 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function product_details($id)
+     {
+         // Retrieve the product using the provided ID
+         $product = Product::findOrFail($id);
+         $Products = Product::where('category', $product->category)
+         ->where('id', '!=', $product->id) // Exclude the current product
+         ->get();
+
+
+         // Pass the product data to the detail view
+         return view('client.detail', compact('product','Products'));
+     }
+
+
+     public function addToCart(Product $product, Request $request)
+    {
+        // Get the current cart from the session
+        $cart = session()->get('cart', []);
+
+        // Check if the product is already in the cart
+        if (isset($cart[$product->name])) {
+            $cart[$product->name]['quantity']++;
+        } else {
+            // Add the product to the cart
+            $cart[$product->name] = [
+                "name" => $product->name,
+                "price" => $product->price,
+                "quantity" => 1
+            ];
+        }
+
+        // Store the cart back in the session
+        session()->put('cart', $cart);
+
+        // Increment the cart counter
+        $cartCount = session()->get('cart_count', 0);
+        session()->put('cart_count', $cartCount + 1);
+
+        // Redirect back with a success message
+        return back()->with('success', 'Product added to cart successfully!');
+    }
+
     public function index()
     {
         //
