@@ -1,13 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use app\Http\Controllers\Controller; 
-use app\Http\Controllers\ProductController; 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use App\Models\Category;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+
 
 // Route pour confirmer une commande
 Route::put('orders/{id}/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
@@ -38,23 +41,32 @@ Route::get('/', function () {
 });
 Route::resource('products', 'App\Http\Controllers\ProductController');
 Route::resource('categories', 'App\Http\Controllers\CategoryController');
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('orders', 'App\Http\Controllers\OrderController');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
 
  //Admin and Client routes
-Route::get('/admin', [AdminController::class, 'dashboard']);
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/profile', [AdminController::class, 'profile'])->name('admin.profile');
+Route::post('/edit/profile', [AdminController::class, 'editprofile'])->name('admin.editprofile');
 Route::get('/client', [ClientController::class, 'dashboard']);
  //Category route
-Route::get('/admin/category', [CategoryController::class, 'index']);
+Route::get('admin/category', [CategoryController::class, 'index']);
  //products route
 Route::get('/test', function () {
     return view('admin.products.index');
 });
 
-Route::get('/admin/orders', [OrderController::class, 'index']);
+
+
+Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+
+
+
+
 

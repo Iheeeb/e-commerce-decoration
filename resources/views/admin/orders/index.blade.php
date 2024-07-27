@@ -26,11 +26,15 @@
             <td>{{ $order->state }}</td>
             <td>
                     <!-- Bouton Confirmer -->
+                    @if ($order->state=='en attente de confirmation')
                     <form action="{{ route('orders.confirm', $order->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('PUT')
                         <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to confirm this order?')">Confirm</button>
                     </form>
+                    @endif
+                    
+
 
 
     

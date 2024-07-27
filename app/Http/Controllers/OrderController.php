@@ -15,7 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders=Order::where('state','en attente de confirmation')->get();
+        $orders=Order::orderby('id','desc')->get();
        return view('admin.orders.index',compact('orders'));
     }
 
@@ -29,12 +29,17 @@ class OrderController extends Controller
      */
     public function confirm(Request $request, $id)
     {
+        // Trouver la commande par ID
         $order = Order::findOrFail($id);
+        
+        // Mettre à jour l'état de la commande
         $order->state = 'confirmé';
         $order->save();
 
-        
+        // Rediriger vers la page de détail de la commande ou une autre vue
+        return redirect()->route('orders.index', $order->id)->with('success', 'Order confirmed.');
     }
+
 
 
 
@@ -67,9 +72,13 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(Order $order)
+    public function show($id)
     {
-        //
+        // Trouver la commande par ID
+        $order = Order::findOrFail($id);
+
+        // Retourner la vue avec la commande
+        return view('admin.orders.index', compact('order'));
     }
 
     /**
@@ -101,8 +110,18 @@ class OrderController extends Controller
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        $order = Order::find($id);
+       
+     
+        if ($order->delete()) {
+            return redirect('orders');
+        } else {
+            return 'Error occurred while adding the category';
+        }
+    
+    
+    
     }
 }
