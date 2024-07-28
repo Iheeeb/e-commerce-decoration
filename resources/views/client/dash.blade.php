@@ -81,7 +81,7 @@
                     <i class="fas fa-heart text-primary"></i>
                     <span class="badge">0</span>
                 </a>
-                <a href="" class="btn border">
+                <a href="{{ route('cart') }}" class="btn border">
                     <i class="fas fa-shopping-cart text-primary"></i>
                     <span class="badge">{{ session('cart_count', 0) }}</span>
                 </a>
@@ -308,6 +308,7 @@
                     <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
                 </a>
             </div>
+            
         </div>
     </div>
 @endforeach

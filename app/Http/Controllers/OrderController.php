@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,50 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    
+     public function indexCart()
+     {
+         // Fetch cart items from session or database
+         $cart = session()->get('cart', []);
+
+         $subtotal = 0;
+        foreach ($cart as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+
+       
+         
+         // Return the cart view with cart items
+         return view('client.cart', compact('cart','subtotal'));
+     }
+    
+     public function removeFromCart($productName)
+{
+    // Decode the product name
+    $productName = urldecode($productName);
+
+    // Get the current cart from the session
+    $cart = session()->get('cart', []);
+
+    // Remove the product from the cart
+    if (isset($cart[$productName])) {
+        unset($cart[$productName]);
+    }
+
+    // Store the cart back in the session
+    session()->put('cart', $cart);
+
+    // Update the cart count
+    $cartCount = count($cart);
+    session()->put('cart_count', $cartCount);
+
+    // Redirect back to the cart with a success message
+    return redirect()->route('cart')->with('success', 'Product removed from cart successfully!');
+}
+
+    
+    
+     public function index()
     {
         $orders=Order::orderby('id','desc')->get();
        return view('admin.orders.index',compact('orders'));

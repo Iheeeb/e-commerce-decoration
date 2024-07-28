@@ -58,32 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="row align-items-center py-3 px-xl-5">
-            <div class="col-lg-3 d-none d-lg-block">
-                <a href="" class="text-decoration-none">
-                    <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
-                </a>
-            </div>
-            <div class="col-lg-6 col-6 text-left">
-                <form action="">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-3 col-6 text-right">
-                
-                <a href="{{ route('cart') }}" class="btn border">
-                    <i class="fas fa-shopping-cart text-primary"></i>
-                    <span class="badge">{{ session('cart_count', 0) }}</span>
-                </a>
-            </div>
-        </div>
+        
     </div>
     <!-- Topbar End -->
 
@@ -91,6 +66,7 @@
     <!-- Navbar Start -->
     <div class="container-fluid">
         <div class="row border-top px-xl-5">
+           
             <div class="col-lg-9">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
                     <a href="" class="text-decoration-none d-block d-lg-none">
@@ -102,15 +78,8 @@
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         
                         <div class="navbar-nav ml-auto py-0">
-                            <a href="#" class="nav-item nav-link">{{ Auth::user()->name }}</a>
-                                <a href="{{ route('logout') }}" class="nav-item nav-link"
-                                   onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                    Logout
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                    @csrf
-                                </form>
+                            <a href="" class="nav-item nav-link">Login</a>
+                            <a href="" class="nav-item nav-link">Register</a>
                         </div>
                     </div>
                 </nav>
@@ -120,141 +89,80 @@
     <!-- Navbar End -->
 
 
-  
 
 
-    <!-- Shop Detail Start -->
-    <div class="container-fluid py-5">
+
+    <!-- Cart Start -->
+    <div class="container-fluid pt-5">
         <div class="row px-xl-5">
-            <div class="col-lg-5 pb-5">
-                <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                    <div class="carousel-inner border">
-                        <div class="carousel-item active">
-                            <img src="/images/{{$product->image}}" width="400px">
+            <div class="col-lg-8 table-responsive mb-5">
+                <table class="table table-bordered text-center mb-0">
+                    <thead class="bg-secondary text-dark">
+                        <tr>
+                            <th>Products</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle">
+
+
+
+                        @foreach($cart as $item)
+                    <tr>
+                        <td class="align-middle">
+                            <img src="img/product-1.jpg" alt="" style="width: 50px;"> <!-- Replace with the actual product image if available -->
+                            {{ $item['name'] }}
+                        </td>
+                        <td class="align-middle">${{ $item['price'] }}</td>
+                        <td class="align-middle">
+                                
+                                {{ $item['quantity'] }}                                
+                            
+                        </td>
+                        <td class="align-middle">${{ $item['quantity'] * $item['price'] }}</td>
+                        <td class="align-middle">
+                            <form action="{{ route('cart.remove', urlencode($item['name'])) }}" method="POST">
+                                @csrf
+                                <button class="btn btn-sm btn-primary" type="submit"><i class="fa fa-times"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
                         
-                        </div>
-                       
-                    </div>
-                    <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                        <i class="fa fa-2x fa-angle-left text-dark"></i>
-                    </a>
-                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                        <i class="fa fa-2x fa-angle-right text-dark"></i>
-                    </a>
-                </div>
+                    </tbody>
+                </table>
             </div>
-
-            <div class="col-lg-7 pb-5">
-                <h3 class="font-weight-semi-bold">{{$product->name}}</h3>
+            <div class="col-lg-4">
                 
-                <h3 class="font-weight-semi-bold mb-4">${{$product->price}}</h3>
-                
-                
-                <div class="d-flex align-items-center mb-4 pt-2">
-                <!--    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus" >
-                            <i class="fa fa-minus"></i>
-                            </button>
+                <div class="card border-secondary mb-5">
+                    <div class="card-header bg-secondary border-0">
+                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between mb-3 pt-1">
+                            <h6 class="font-weight-medium">Subtotal</h6>
+                            <h6 class="font-weight-medium">${{$subtotal}}</h6>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus">
-                                <i class="fa fa-plus"></i>
-                            </button>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Shipping</h6>
+                            <h6 class="font-weight-medium">$10</h6>
                         </div>
                     </div>
-                    <button  class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>-->
-                </div>
-                
-
-                <form action="{{ route('products.addToCart', $product->id) }}" method="get">
-                    <div class="input-group quantity mr-3" style="width: 130px;">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-minus" type="button">
-                            <i class="fa fa-minus"></i>
-                            </button>
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">${{$subtotal+10}}</h5>
                         </div>
-                        <input type="text" class="form-control bg-secondary text-center" value="1" name="q">
-                        <div class="input-group-btn">
-                            <button class="btn btn-primary btn-plus" type="button">
-                                <i class="fa fa-plus"></i>
-                            </button>
-                        </div>
-                    </div><br>
-                    <button type="submit" class="btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
-
-
-                
-                </form>
-
-
-
-
-
-
-            </div>
-        </div>
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="nav nav-tabs justify-content-center border-secondary mb-4">
-                    <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
-                    
-                </div>
-                <div class="tab-content">
-                    <div class="tab-pane fade show active" id="tab-pane-1">
-                        <h4 class="mb-3">Product Description</h4>
-                        <p>{{$product->details}}</p>
+                        <button class="btn btn-block btn-primary my-3 py-3">Proceed To Checkout</button>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </div>
-    <!-- Shop Detail End -->
-
-
-    <!-- Products Start -->
-    <div class="container-fluid py-5">
-        <div class="text-center mb-4">
-            @if($Products->isNotEmpty())
-            <h2 class="section-title px-5"><span class="px-2">You May Also Like</span></h2>
-            @endif
-        </div>
-        <div class="row px-xl-5">
-            <div class="col">
-                <div class="owl-carousel related-carousel">
-                    @foreach ($Products as $item)
-    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
-        <div class="card product-item border-0 mb-4">
-            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
-                <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
-            </div>
-            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
-                <h6 class="text-truncate mb-3">{{ $item->name }}</h6>
-                <div class="d-flex justify-content-center">
-                    <h6>${{ $item->price }}</h6>
-                </div>
-            </div>
-            <div class="card-footer d-flex justify-content-between bg-light border">
-                <a href="{{ route('product.detail', $item->id) }}" class="btn btn-sm text-dark p-0">
-                    <i class="fas fa-eye text-primary mr-1"></i>View Detail
-                </a>
-                <a href="{{ route('products.addToCart', $item->id) }}" class="btn btn-sm text-dark p-0">
-                    <i class="fas fa-shopping-cart text-primary mr-1"></i>Add To Cart
-                </a>
-            </div>
-        </div>
-    </div>
-@endforeach
-
-
-                    
-                    
-               
-        </div>
-    </div>
-    <!-- Products End -->
+    <!-- Cart End -->
 
 
     <!-- Footer Start -->
