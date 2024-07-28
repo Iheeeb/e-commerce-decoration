@@ -44,6 +44,9 @@ Route::get('/', function () {
 Route::resource('products', 'App\Http\Controllers\ProductController');
 Route::resource('categories', 'App\Http\Controllers\CategoryController');
 Route::resource('orders', 'App\Http\Controllers\OrderController');
+Route::get('/cart', [OrderController::class, 'indexcart'])->name('cart');
+
+Route::post('/cart/remove/{product}', [OrderController::class, 'removeFromCart'])->name('cart.remove');
 
 Auth::routes();
 

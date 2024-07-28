@@ -27,33 +27,46 @@ class ProductController extends Controller
      }
 
 
+
+
+
+
+     
      public function addToCart(Product $product, Request $request)
-    {
-        // Get the current cart from the session
-        $cart = session()->get('cart', []);
-
-        // Check if the product is already in the cart
-        if (isset($cart[$product->name])) {
-            $cart[$product->name]['quantity']++;
-        } else {
-            // Add the product to the cart
-            $cart[$product->name] = [
-                "name" => $product->name,
-                "price" => $product->price,
-                "quantity" => 1
-            ];
-        }
-
-        // Store the cart back in the session
-        session()->put('cart', $cart);
-
-        // Increment the cart counter
-        $cartCount = session()->get('cart_count', 0);
-        session()->put('cart_count', $cartCount + 1);
-
-        // Redirect back with a success message
-        return back()->with('success', 'Product added to cart successfully!');
-    }
+     {
+         // Validate the quantity input
+         
+     
+         // Get the current cart from the session
+         $cart = session()->get('cart', []);
+     
+         // Determine the quantity to add
+         $quantityToAdd = $request->input('q', 1); // Default to 1 if 'q' is not set
+     
+         // Check if the product is already in the cart
+         if (isset($cart[$product->name])) {
+             // Increment the quantity of the existing product
+             $cart[$product->name]['quantity'] += $quantityToAdd;
+         } else {
+             // Add the product to the cart with the specified quantity
+             $cart[$product->name] = [
+                 "name" => $product->name,
+                 "price" => $product->price,
+                 "quantity" => $quantityToAdd
+             ];
+         }
+     
+         // Store the cart back in the session
+         session()->put('cart', $cart);
+     
+         // Update the cart counter
+         $cartCount = array_sum(array_column($cart, 'quantity'));
+         session()->put('cart_count', $cartCount);
+     
+         // Redirect back with a success message
+         return back()->with('success', 'Product added to cart successfully!');
+     }
+     
 
     public function index()
     {
