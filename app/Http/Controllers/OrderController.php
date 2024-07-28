@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+
 
 class OrderController extends Controller
 {
@@ -14,7 +18,7 @@ class OrderController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    
+  
      public function indexCart()
      {
          // Fetch cart items from session or database
@@ -89,26 +93,56 @@ class OrderController extends Controller
 
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function placeOrder(Request $request)
     {
-        //
+        // Vérifiez que l'utilisateur est authentifié
+        $user = auth()->user();
+    
+        // Récupérer les informations du panier depuis la session
+        $cart = Session::get('cart');
+    
+        // Vérifier si le panier est vide
+        if (empty($cart)) {
+            return redirect()->route('checkout')->with('error', 'Votre panier est vide.');
+        }
+    
+        // Calculer le total de la commande
+        $subtotal = 0;
+        foreach ($cart as $item) {
+            $subtotal += $item['price'] * $item['quantity'];
+        }
+        $total = $subtotal + 10; // Ajouter les frais de livraison
+    
+        // Créer le contenu de la commande sous forme de chaîne de caractères
+        $content = '';
+        foreach ($cart as $item) {
+            $content .= $item['name'] . ' x ' . $item['quantity'] . ', ';
+        }
+        $content = rtrim($content, ', ');
+    
+        // Créer et sauvegarder la nouvelle commande
+        $order = new Order();
+        $order->idclient =  auth()->user()->id;
+        $order->clientname =  auth()->user()->name;
+        $order->date = now();
+        $order->content = $content;
+        $order->total = $total;
+        $order->state = 'en attente de confirmation'; // État par défaut
+        $order->save();
+    
+        // Vider le panier après la commande
+        Session::forget('cart');
+    
+        // Rediriger vers la page de checkout avec un message de succès
+        return redirect()->route('checkout')->with('success', 'Votre commande a été passée avec succès!');
     }
+    
+    
+    
+
+    
+  
 
     /**
      * Display the specified resource.

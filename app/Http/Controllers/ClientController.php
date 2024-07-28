@@ -17,7 +17,9 @@ class ClientController extends Controller
     {
         //
     }
-
+    public function checkout(){
+        return view('client.checkout');
+    }
 
      //fct permet d'afficher dashboard admin
      public function dashboard(){
