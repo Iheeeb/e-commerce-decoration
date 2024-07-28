@@ -72,6 +72,8 @@ Route::get('/test', function () {
 Route::get('/admin/orders', [OrderController::class, 'index'])->name('admin.orders.index');
 
 
+Route::get('/client/checkout', [ClientController::class, 'checkout'])->name('checkout');
 
-
-
+Route::middleware('auth')->group(function () {
+    Route::get('/place/order', [OrderController::class, 'placeOrder'])->name('order.place');
+});
